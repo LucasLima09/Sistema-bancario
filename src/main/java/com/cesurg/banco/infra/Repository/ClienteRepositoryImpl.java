@@ -59,4 +59,15 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         }
         return null;
     }
+
+    public boolean verificarCpf(String cpf){
+
+        for(Cliente cliente : listaDeClientes){
+            if(cliente.getCpf().equals(cpf)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

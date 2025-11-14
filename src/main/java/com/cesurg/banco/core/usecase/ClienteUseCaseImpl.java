@@ -17,7 +17,15 @@ public class ClienteUseCaseImpl implements ClienteUseCase {
 
     @Override
     public void salvarCliente(@RequestBody Cliente cliente){
-        clienteRepository.salvarCliente(cliente);
+
+        boolean jaExiste = clienteRepository.verificarCpf(cliente.getCpf());
+
+        if (jaExiste){
+            throw new RuntimeException("Cpf já cadastrado");
+        }
+        else {
+            clienteRepository.salvarCliente(cliente);
+        }
     }
 
     @Override
@@ -32,6 +40,14 @@ public class ClienteUseCaseImpl implements ClienteUseCase {
 
     @Override
     public void atualizarCliente(long id,Cliente clienteNovo) {
-        clienteRepository.atualizarCliente(id, clienteNovo);
+
+        boolean jaExiste = clienteRepository.verificarCpf(clienteNovo.getCpf());
+
+        if (jaExiste){
+            throw new RuntimeException("Cpf já cadastrado");
+        }
+        else {
+            clienteRepository.atualizarCliente(id, clienteNovo);
+        }
     }
 }
