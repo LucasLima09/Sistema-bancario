@@ -60,6 +60,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         return null;
     }
 
+    @Override
     public boolean verificarCpf(String cpf){
 
         for(Cliente cliente : listaDeClientes){
