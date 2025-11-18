@@ -9,4 +9,5 @@ public interface ContaRepository {
     void deletarConta(long id);
     public List<Conta> listarContas();
     void atualizarConta(long id, Conta novaConta);
+    public Conta buscarConta(long id);
 }

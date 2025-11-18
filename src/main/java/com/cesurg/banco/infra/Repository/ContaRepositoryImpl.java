@@ -24,15 +24,43 @@ public class ContaRepositoryImpl implements ContaRepository {
     @Override
     public void deletarConta(long id) {
 
+        for(Conta conta : listaDeContas){
+            if(conta.getId() == id){
+                listaDeContas.remove(conta);
+            }
+        }
     }
 
     @Override
     public List<Conta> listarContas() {
-        return null;
+        return this.listaDeContas;
     }
 
     @Override
     public void atualizarConta(long id, Conta novaConta) {
+        Conta contaExistente = buscarConta(id);
+        //saldo credito agencia numero
+        if(novaConta.getSaldo() != null){
+            contaExistente.setSaldo(novaConta.getSaldo());
+        }
+        if(novaConta.getCredito() != null){
+            contaExistente.setCredito(novaConta.getCredito());
+        }
+        if(novaConta.getAgencia() != null){
+            contaExistente.setAgencia(novaConta.getAgencia());
+        }
+        if(novaConta.getNumero() != null){
+            contaExistente.setNumero(novaConta.getNumero());
+        }
+    }
 
+    @Override
+    public Conta buscarConta(long id){
+        for (Conta conta : listaDeContas){
+            if(conta.getId() == id){
+                return conta;
+            }
+        }
+        return null;
     }
 }
