@@ -1,13 +1,16 @@
 package com.cesurg.banco.core.domain.interfaces;
 
 import com.cesurg.banco.core.domain.model.Conta;
+import com.cesurg.banco.core.domain.model.Erro;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface ContaRepository {
-    void criarConta(Conta conta);
+    ResponseEntity<Erro> criarConta(Conta conta);
     void deletarConta(long id);
     public List<Conta> listarContas();
     void atualizarConta(long id, Conta novaConta);
     public Conta buscarConta(long id);
+    boolean verificarIdentificador(String agencia, String numero);
 }

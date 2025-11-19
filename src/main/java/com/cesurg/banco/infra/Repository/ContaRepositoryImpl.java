@@ -2,8 +2,9 @@ package com.cesurg.banco.infra.Repository;
 
 import com.cesurg.banco.core.domain.interfaces.ContaRepository;
 import com.cesurg.banco.core.domain.model.Conta;
+import com.cesurg.banco.core.domain.model.Erro;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -15,10 +16,11 @@ public class ContaRepositoryImpl implements ContaRepository {
 
     private long idAtual = 0;
     @Override
-    public void criarConta(Conta conta) {
+    public ResponseEntity<Erro> criarConta(Conta conta) {
         idAtual++;
         conta.setId(idAtual);
         listaDeContas.add(conta);
+        return null;
     }
 
     @Override
@@ -62,5 +64,15 @@ public class ContaRepositoryImpl implements ContaRepository {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean verificarIdentificador(String agencia, String numero){
+        for(Conta conta : listaDeContas){
+            if(conta.getAgencia().equals(agencia) && conta.getNumero().equals(numero)){
+                return true;
+            }
+        }
+        return false;
     }
 }

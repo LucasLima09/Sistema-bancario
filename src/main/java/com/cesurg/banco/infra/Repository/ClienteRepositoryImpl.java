@@ -2,9 +2,10 @@ package com.cesurg.banco.infra.Repository;
 
 import com.cesurg.banco.core.domain.interfaces.ClienteRepository;
 import com.cesurg.banco.core.domain.model.Cliente;
+import com.cesurg.banco.core.domain.model.Erro;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -15,10 +16,11 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     private long idAtual = 0;
 
     @Override
-    public void salvarCliente(Cliente cliente) {
+    public ResponseEntity<Erro> salvarCliente(Cliente cliente) {
         idAtual++;
         cliente.setId(idAtual);
         listaDeClientes.add(cliente);
+        return null;
     }
 
     public List<Cliente> listarClientes(){
