@@ -22,7 +22,7 @@ public class ContaUseCaseImpl implements ContaUseCase {
         boolean jaExiste = contaRepository.verificarIdentificador(conta.getAgencia(),conta.getNumero());
 
         if(jaExiste){
-            throw new RuntimeException("ERRO: Já existe esse número vinculado a essa agência");
+            throw new RuntimeException("ERRO: Já existe uma conta com esse número vinculado a essa agência");
         }
         return contaRepository.criarConta(conta);
     }
@@ -38,7 +38,12 @@ public class ContaUseCaseImpl implements ContaUseCase {
     }
 
     @Override
-    public void atualizarConta(long id, Conta novaConta) {
-        contaRepository.atualizarConta(id, novaConta);
+    public ResponseEntity<Erro> atualizarConta(long id, Conta novaConta) {
+        boolean jaExiste = contaRepository.verificarIdentificador(novaConta.getAgencia(),novaConta.getNumero());
+
+        if(jaExiste){
+            throw new RuntimeException("ERRO: Já existe uma conta com esse número vinculado a essa agência");
+        }
+        return contaRepository.atualizarConta(id, novaConta);
     }
 }

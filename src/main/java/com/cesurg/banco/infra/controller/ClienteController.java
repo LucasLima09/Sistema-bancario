@@ -41,8 +41,16 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    void atualizarCliente(@PathVariable long id, @RequestBody Cliente clienteNovo){
-        clienteUseCase.atualizarCliente(id, clienteNovo);
+    ResponseEntity<Erro> atualizarCliente(@PathVariable long id, @RequestBody Cliente clienteNovo){
+        try {
+            return clienteUseCase.atualizarCliente(id, clienteNovo);
+        }catch (RuntimeException e){
+            String textoErro = e.getMessage();
+
+            Erro erro = new Erro(textoErro);
+
+            return ResponseEntity.badRequest().body(erro);
+        }
     }
 
 }

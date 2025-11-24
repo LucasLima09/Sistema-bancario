@@ -10,5 +10,5 @@ public interface ClienteUseCase {
     ResponseEntity<Erro> salvarCliente(Cliente cliente);
     public List<Cliente> listarClientes();
     void deletarCliente(long id);
-    void atualizarCliente(long id, Cliente clienteNovo);
+    ResponseEntity<Erro> atualizarCliente(long id, Cliente clienteNovo);
 }

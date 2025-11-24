@@ -38,7 +38,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         }
     }
     @Override
-    public void atualizarCliente(long id, Cliente clienteNovo){
+    public ResponseEntity<Erro> atualizarCliente(long id, Cliente clienteNovo){
         Cliente clienteExistente = buscarCliente(id);
 
         if( clienteNovo.getNome() != null && !clienteNovo.getNome().isEmpty()) {
@@ -50,6 +50,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         if( clienteNovo.getCpf() != null && !clienteNovo.getCpf().isEmpty()) {
             clienteExistente.setCpf(clienteNovo.getCpf());
         }
+        return null;
     }
 
     @Override

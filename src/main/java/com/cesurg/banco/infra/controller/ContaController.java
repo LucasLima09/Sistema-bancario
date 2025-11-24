@@ -41,8 +41,16 @@ public class ContaController {
     }
 
     @PutMapping("/{id}")
-    void atualizarConta(@PathVariable long id, @RequestBody Conta conta){
-        contaUseCase.atualizarConta(id,conta);
+    ResponseEntity<Erro> atualizarConta(@PathVariable long id, @RequestBody Conta conta){
+        try {
+            return contaUseCase.atualizarConta(id,conta);
+        }catch (RuntimeException e){
+            String textoErro = e.getMessage();
+
+            Erro erro = new Erro(textoErro);
+
+            return ResponseEntity.badRequest().body(erro);
+        }
     }
 
 }

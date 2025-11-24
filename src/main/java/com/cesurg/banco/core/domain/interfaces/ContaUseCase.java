@@ -10,5 +10,5 @@ public interface ContaUseCase {
     ResponseEntity<Erro> criarConta(Conta conta);
     void deletarConta(long id);
     public List<Conta> listarContas();
-    void atualizarConta(long id, Conta novaConta);
+    ResponseEntity<Erro> atualizarConta(long id, Conta novaConta);
 }

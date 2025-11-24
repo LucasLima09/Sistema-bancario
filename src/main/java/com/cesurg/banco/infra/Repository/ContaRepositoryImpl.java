@@ -39,7 +39,7 @@ public class ContaRepositoryImpl implements ContaRepository {
     }
 
     @Override
-    public void atualizarConta(long id, Conta novaConta) {
+    public ResponseEntity<Erro> atualizarConta(long id, Conta novaConta) {
         Conta contaExistente = buscarConta(id);
         //saldo credito agencia numero
         if(novaConta.getSaldo() != null){
@@ -54,6 +54,7 @@ public class ContaRepositoryImpl implements ContaRepository {
         if(novaConta.getNumero() != null){
             contaExistente.setNumero(novaConta.getNumero());
         }
+        return null;
     }
 
     @Override

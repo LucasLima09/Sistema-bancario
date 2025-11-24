@@ -42,7 +42,7 @@ public class ClienteUseCaseImpl implements ClienteUseCase {
     }
 
     @Override
-    public void atualizarCliente(long id,Cliente clienteNovo) {
+    public ResponseEntity<Erro> atualizarCliente(long id,Cliente clienteNovo) {
 
         boolean jaExiste = clienteRepository.verificarCpf(clienteNovo.getCpf());
 
@@ -52,5 +52,6 @@ public class ClienteUseCaseImpl implements ClienteUseCase {
         else {
             clienteRepository.atualizarCliente(id, clienteNovo);
         }
+        return null;
     }
 }

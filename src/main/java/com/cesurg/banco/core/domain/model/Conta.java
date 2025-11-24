@@ -11,6 +11,24 @@ public class Conta {
 
     private long clienteId;
 
+
+    public void debitar(BigDecimal valor) {
+        if (valor.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("Valor inválido");
+        }
+        if (this.saldo.compareTo(valor) < 0) {
+            throw new RuntimeException("Saldo insuficiente");
+        }
+        this.saldo = this.saldo.subtract(valor);
+    }
+
+    public void creditar(BigDecimal valor){
+        if(valor.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("O valor deve ser maior que zero");
+        }
+        this.saldo = this.saldo.add(valor);
+    }
+
     public Conta() {
     }
 
