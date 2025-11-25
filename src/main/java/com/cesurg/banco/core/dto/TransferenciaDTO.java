@@ -1,4 +1,4 @@
-package com.cesurg.banco.infra.dto;
+package com.cesurg.banco.core.dto;
 
 import java.math.BigDecimal;
 

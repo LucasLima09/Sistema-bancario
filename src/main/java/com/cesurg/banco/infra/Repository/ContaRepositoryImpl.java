@@ -6,6 +6,7 @@ import com.cesurg.banco.core.domain.model.Erro;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -75,5 +76,18 @@ public class ContaRepositoryImpl implements ContaRepository {
             }
         }
         return false;
+    }
+    @Override
+    public ResponseEntity<Erro> transferir(long idOrigem, long idDestino, BigDecimal valor){
+
+        Conta origem = buscarConta(idOrigem);
+        Conta destino = buscarConta(idDestino);
+
+        origem.debitar(valor);
+        destino.creditar(valor);
+
+        atualizarConta(idOrigem, origem);
+        atualizarConta(idDestino, destino);
+        return null;
     }
 }

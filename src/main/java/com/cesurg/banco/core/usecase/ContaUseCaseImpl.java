@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -45,5 +46,9 @@ public class ContaUseCaseImpl implements ContaUseCase {
             throw new RuntimeException("ERRO: Já existe uma conta com esse número vinculado a essa agência");
         }
         return contaRepository.atualizarConta(id, novaConta);
+    }
+    @Override
+    public ResponseEntity<Erro> transferir(long idOrigem, long idDestino, BigDecimal valor){
+        return contaRepository.transferir(idOrigem, idDestino, valor);
     }
 }

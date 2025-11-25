@@ -3,7 +3,7 @@ package com.cesurg.banco.infra.controller;
 import com.cesurg.banco.core.domain.interfaces.ContaUseCase;
 import com.cesurg.banco.core.domain.model.Conta;
 import com.cesurg.banco.core.domain.model.Erro;
-import com.cesurg.banco.core.usecase.ContaUseCaseImpl;
+import com.cesurg.banco.core.dto.TransferenciaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/conta")
+@RequestMapping("/contas")
 public class ContaController {
 
     @Autowired
@@ -51,6 +51,21 @@ public class ContaController {
 
             return ResponseEntity.badRequest().body(erro);
         }
+    }
+
+    @PostMapping("/transferencias")
+    public ResponseEntity<Erro> transferir(@RequestBody TransferenciaDTO dto){
+        try {
+            contaUseCase.transferir(dto.origem(), dto.destino(), dto.valor());
+        } catch (RuntimeException e) {
+
+            String textoErro = e.getMessage();
+
+            Erro erro = new Erro(textoErro);
+
+            return ResponseEntity.badRequest().body(erro);
+        }
+        return null;
     }
 
 }
