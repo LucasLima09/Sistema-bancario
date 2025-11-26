@@ -1,13 +1,29 @@
 package com.cesurg.banco.core.domain.model;
 
+import org.springframework.http.ResponseEntity;
+
 import java.math.BigDecimal;
 
 public class ContaPoupanca extends Conta{
-    private BigDecimal saldoPoupanca;
 
-    public ContaPoupanca(long id, BigDecimal saldo, BigDecimal credito, String agencia, String numero, BigDecimal saldoPoupanca) {
-        super(id, saldo, credito, agencia, numero);
-        this.saldoPoupanca = saldoPoupanca;
+    private BigDecimal saldoPoupanca = BigDecimal.ZERO;
+
+    public ContaPoupanca(){
+        super.setTipo("POUPANCA");
+    }
+
+    public ResponseEntity<Erro> aplicarPoupanca(BigDecimal valor){
+
+        if(super.getSaldo().compareTo(valor)>=0){
+
+            BigDecimal novoSaldo = super.getSaldo().subtract(valor);
+
+            super.setSaldo(novoSaldo);
+            this.saldoPoupanca = this.saldoPoupanca.add(valor);
+        }else {
+            throw new RuntimeException("ERRO: Saldo insuficiente para aplicar");
+        }
+        return null;
     }
 
     public BigDecimal getSaldoPoupanca() {

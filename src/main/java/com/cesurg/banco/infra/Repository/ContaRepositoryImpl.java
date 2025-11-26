@@ -46,9 +46,6 @@ public class ContaRepositoryImpl implements ContaRepository {
         if(novaConta.getSaldo() != null){
             contaExistente.setSaldo(novaConta.getSaldo());
         }
-        if(novaConta.getCredito() != null){
-            contaExistente.setCredito(novaConta.getCredito());
-        }
         if(novaConta.getAgencia() != null){
             contaExistente.setAgencia(novaConta.getAgencia());
         }

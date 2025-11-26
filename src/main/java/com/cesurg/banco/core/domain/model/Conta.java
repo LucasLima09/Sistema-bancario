@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 public class Conta {
     private long id;
+    private String tipo;
     private BigDecimal saldo;
-    private BigDecimal credito;
     private String agencia;
     private String numero;
 
@@ -32,10 +32,10 @@ public class Conta {
     public Conta() {
     }
 
-    public Conta(long id, BigDecimal saldo, BigDecimal credito, String agencia, String numero) {
+    public Conta(long id, String tipo, BigDecimal saldo, String agencia, String numero) {
         this.id = id;
+        this.tipo = tipo;
         this.saldo = saldo;
-        this.credito = credito;
         this.agencia = agencia;
         this.numero = numero;
     }
@@ -48,20 +48,20 @@ public class Conta {
         this.id = id;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     public BigDecimal getSaldo() {
         return saldo;
     }
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
-    }
-
-    public BigDecimal getCredito() {
-        return credito;
-    }
-
-    public void setCredito(BigDecimal credito) {
-        this.credito = credito;
     }
 
     public String getAgencia() {

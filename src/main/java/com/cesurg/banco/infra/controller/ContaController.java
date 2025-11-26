@@ -1,8 +1,7 @@
 package com.cesurg.banco.infra.controller;
 
 import com.cesurg.banco.core.domain.interfaces.ContaUseCase;
-import com.cesurg.banco.core.domain.model.Conta;
-import com.cesurg.banco.core.domain.model.Erro;
+import com.cesurg.banco.core.domain.model.*;
 import com.cesurg.banco.core.dto.TransferenciaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +16,19 @@ public class ContaController {
     @Autowired
     ContaUseCase contaUseCase;
 
-    @PostMapping
-    ResponseEntity<Erro> criarConta(@RequestBody Conta conta){
-        try {
-            return contaUseCase.criarConta(conta);
-        }catch (RuntimeException e){
-            String textoErro = e.getMessage();
+    @PostMapping("/corrente")
+    ResponseEntity<Erro> criarContaCorrente(@RequestBody ContaCorrente conta){
+        return contaUseCase.criarContaCorrente(conta);
+    }
 
-            Erro erro = new Erro(textoErro);
+    @PostMapping("/poupanca")
+    ResponseEntity<Erro> criarContaPoupanca(@RequestBody ContaPoupanca conta){
+        return contaUseCase.criarContaPoupanca(conta);
+    }
 
-            return ResponseEntity.badRequest().body(erro);
-        }
+    @PostMapping("/credito")
+    ResponseEntity<Erro> criarContaCredito(@RequestBody ContaCredito conta){
+        return contaUseCase.criarContaCredito(conta);
     }
 
     @GetMapping
@@ -42,30 +43,11 @@ public class ContaController {
 
     @PutMapping("/{id}")
     ResponseEntity<Erro> atualizarConta(@PathVariable long id, @RequestBody Conta conta){
-        try {
-            return contaUseCase.atualizarConta(id,conta);
-        }catch (RuntimeException e){
-            String textoErro = e.getMessage();
-
-            Erro erro = new Erro(textoErro);
-
-            return ResponseEntity.badRequest().body(erro);
-        }
+        return contaUseCase.atualizarConta(id,conta);
     }
 
     @PostMapping("/transferencias")
     public ResponseEntity<Erro> transferir(@RequestBody TransferenciaDTO dto){
-        try {
-            contaUseCase.transferir(dto.origem(), dto.destino(), dto.valor());
-        } catch (RuntimeException e) {
-
-            String textoErro = e.getMessage();
-
-            Erro erro = new Erro(textoErro);
-
-            return ResponseEntity.badRequest().body(erro);
-        }
-        return null;
+        return contaUseCase.transferir(dto.origem(), dto.destino(), dto.valor());
     }
-
 }

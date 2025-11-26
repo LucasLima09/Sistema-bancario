@@ -2,8 +2,7 @@ package com.cesurg.banco.core.usecase;
 
 import com.cesurg.banco.core.domain.interfaces.ContaRepository;
 import com.cesurg.banco.core.domain.interfaces.ContaUseCase;
-import com.cesurg.banco.core.domain.model.Conta;
-import com.cesurg.banco.core.domain.model.Erro;
+import com.cesurg.banco.core.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,12 +18,34 @@ public class ContaUseCaseImpl implements ContaUseCase {
     ContaRepository contaRepository;
 
     @Override
-    public ResponseEntity<Erro> criarConta(@RequestBody Conta conta) {
+    public ResponseEntity<Erro> criarContaCorrente(@RequestBody ContaCorrente conta) {
         boolean jaExiste = contaRepository.verificarIdentificador(conta.getAgencia(),conta.getNumero());
 
         if(jaExiste){
             throw new RuntimeException("ERRO: Já existe uma conta com esse número vinculado a essa agência");
         }
+        conta.setTipo("CORRENTE");
+        return contaRepository.criarConta(conta);
+    }
+
+    @Override
+    public ResponseEntity<Erro> criarContaPoupanca(@RequestBody ContaPoupanca conta) {
+        boolean jaExiste = contaRepository.verificarIdentificador(conta.getAgencia(),conta.getNumero());
+
+        if(jaExiste){
+            throw new RuntimeException("ERRO: Já existe uma conta com esse número vinculado a essa agência");
+        }
+        conta.setTipo("POUPANCA");
+        return contaRepository.criarConta(conta);
+    }
+    @Override
+    public ResponseEntity<Erro> criarContaCredito(@RequestBody ContaCredito conta) {
+        boolean jaExiste = contaRepository.verificarIdentificador(conta.getAgencia(),conta.getNumero());
+
+        if(jaExiste){
+            throw new RuntimeException("ERRO: Já existe uma conta com esse número vinculado a essa agência");
+        }
+        conta.setTipo("CREDITO");
         return contaRepository.criarConta(conta);
     }
 

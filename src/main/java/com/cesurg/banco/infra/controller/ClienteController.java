@@ -3,7 +3,6 @@ package com.cesurg.banco.infra.controller;
 import com.cesurg.banco.core.domain.interfaces.ClienteUseCase;
 import com.cesurg.banco.core.domain.model.Cliente;
 import com.cesurg.banco.core.domain.model.Erro;
-import com.cesurg.banco.core.usecase.ClienteUseCaseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +18,7 @@ public class ClienteController {
 
     @PostMapping
     ResponseEntity<Erro> salvarCliente(@RequestBody Cliente cliente){
-        try {
-            return clienteUseCase.salvarCliente(cliente);
-        }catch (RuntimeException e){
-            String textoErro = e.getMessage();
-
-            Erro erro = new Erro(textoErro);
-
-            return ResponseEntity.badRequest().body(erro);
-        }
+        return clienteUseCase.salvarCliente(cliente);
     }
 
     @GetMapping
@@ -42,15 +33,7 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     ResponseEntity<Erro> atualizarCliente(@PathVariable long id, @RequestBody Cliente clienteNovo){
-        try {
-            return clienteUseCase.atualizarCliente(id, clienteNovo);
-        }catch (RuntimeException e){
-            String textoErro = e.getMessage();
-
-            Erro erro = new Erro(textoErro);
-
-            return ResponseEntity.badRequest().body(erro);
-        }
+        return clienteUseCase.atualizarCliente(id, clienteNovo);
     }
 
 }
