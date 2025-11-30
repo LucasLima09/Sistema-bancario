@@ -38,6 +38,7 @@ public class ContaUseCaseImpl implements ContaUseCase {
         conta.setTipo("POUPANCA");
         return contaRepository.criarConta(conta);
     }
+
     @Override
     public ResponseEntity<Erro> criarContaCredito(@RequestBody ContaCredito conta) {
         boolean jaExiste = contaRepository.verificarIdentificador(conta.getAgencia(),conta.getNumero());
@@ -68,8 +69,38 @@ public class ContaUseCaseImpl implements ContaUseCase {
         }
         return contaRepository.atualizarConta(id, novaConta);
     }
+
     @Override
     public ResponseEntity<Erro> transferir(long idOrigem, long idDestino, BigDecimal valor){
         return contaRepository.transferir(idOrigem, idDestino, valor);
+    }
+
+    @Override
+    public ResponseEntity<Erro> aplicarPoupanca(long id, BigDecimal valor){
+        Conta conta = contaRepository.buscarConta(id);
+
+        if(conta instanceof ContaPoupanca){
+
+            ContaPoupanca poupanca = (ContaPoupanca) conta;
+
+            poupanca.aplicarPoupanca(valor);
+
+            contaRepository.atualizarConta(id, poupanca);
+        }
+        return null;
+    }
+    @Override
+    public ResponseEntity<Erro> usarCredito(long id, BigDecimal valor){
+
+        Conta conta = contaRepository.buscarConta(id);
+
+        if(conta instanceof ContaCredito) {
+            ContaCredito credito = (ContaCredito) conta;
+
+            credito.usarCredito(valor);
+
+            contaRepository.atualizarConta(id, credito);
+        }
+        return null;
     }
 }

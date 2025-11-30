@@ -1,5 +1,7 @@
 package com.cesurg.banco.core.domain.model;
 
+import org.springframework.http.ResponseEntity;
+
 import java.math.BigDecimal;
 
 public class ContaCredito extends Conta{
@@ -9,6 +11,20 @@ public class ContaCredito extends Conta{
 
     public ContaCredito() {
         super.setTipo("CREDITO");
+    }
+
+    public ResponseEntity<Erro> usarCredito(BigDecimal valor){
+        if(valor.compareTo(BigDecimal.valueOf(0)) > 0) {
+            if (creditoUsado.compareTo(creditoLimite) < 0) {
+                this.creditoUsado = this.creditoUsado.add(valor);
+            } else {
+                throw new RuntimeException("ERRO: Você atingiu o LIMITE do crédito");
+            }
+        }else {
+            throw new RuntimeException("ERRO: O valor deve ser maior que 0");
+        }
+
+        return null;
     }
 
     public BigDecimal getCreditoLimite() {
