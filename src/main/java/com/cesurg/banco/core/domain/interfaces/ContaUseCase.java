@@ -16,4 +16,5 @@ public interface ContaUseCase {
     ResponseEntity<Erro> transferir(long idOrigem, long idDestino, BigDecimal valor);
     ResponseEntity<Erro> aplicarPoupanca(long id, BigDecimal valor);
     ResponseEntity<Erro> usarCredito(long id, BigDecimal valor);
+    public Conta buscarConta(long id);
 }

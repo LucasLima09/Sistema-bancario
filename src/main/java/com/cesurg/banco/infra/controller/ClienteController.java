@@ -36,4 +36,8 @@ public class ClienteController {
         return clienteUseCase.atualizarCliente(id, clienteNovo);
     }
 
+    @GetMapping("/{id}")
+    Cliente buscarCliente(@PathVariable long id){
+        return clienteUseCase.buscarCliente(id);
+    }
 }

@@ -61,6 +61,11 @@ public class ContaUseCaseImpl implements ContaUseCase {
     }
 
     @Override
+    public Conta buscarConta(long id){
+        return contaRepository.buscarConta(id);
+    }
+
+    @Override
     public ResponseEntity<Erro> atualizarConta(long id, Conta novaConta) {
         boolean jaExiste = contaRepository.verificarIdentificador(novaConta.getAgencia(),novaConta.getNumero());
 
@@ -86,9 +91,12 @@ public class ContaUseCaseImpl implements ContaUseCase {
             poupanca.aplicarPoupanca(valor);
 
             contaRepository.atualizarConta(id, poupanca);
+        }else{
+            throw new RuntimeException("ERRO: Conta "+conta.getTipo()+" não aceita esse tipo de método");
         }
         return null;
     }
+
     @Override
     public ResponseEntity<Erro> usarCredito(long id, BigDecimal valor){
 
@@ -100,6 +108,8 @@ public class ContaUseCaseImpl implements ContaUseCase {
             credito.usarCredito(valor);
 
             contaRepository.atualizarConta(id, credito);
+        }else{
+            throw new RuntimeException("ERRO: Conta "+conta.getTipo()+" não aceita esse tipo de método");
         }
         return null;
     }

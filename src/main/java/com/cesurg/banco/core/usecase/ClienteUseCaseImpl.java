@@ -54,4 +54,9 @@ public class ClienteUseCaseImpl implements ClienteUseCase {
         }
         return null;
     }
+
+    @Override
+    public Cliente buscarCliente(long id){
+        return clienteRepository.buscarCliente(id);
+    }
 }

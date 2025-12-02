@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -36,6 +35,11 @@ public class ContaController {
     @GetMapping
     public List<Conta> listarContas(){
         return contaUseCase.listarContas();
+    }
+
+    @GetMapping("/{id}")
+    public Conta buscarConta(@PathVariable long id){
+        return contaUseCase.buscarConta(id);
     }
 
     @DeleteMapping("/{id}")
