@@ -18,36 +18,36 @@ public class ContaUseCaseImpl implements ContaUseCase {
     ContaRepository contaRepository;
 
     @Override
-    public ResponseEntity<Erro> criarContaCorrente(@RequestBody ContaCorrente conta) {
+    public void criarContaCorrente(@RequestBody ContaCorrente conta) {
         boolean jaExiste = contaRepository.verificarIdentificador(conta.getAgencia(),conta.getNumero());
 
         if(jaExiste){
             throw new RuntimeException("ERRO: Já existe uma conta com esse número vinculado a essa agência");
         }
         conta.setTipo("CORRENTE");
-        return contaRepository.criarConta(conta);
+        contaRepository.criarConta(conta);
     }
 
     @Override
-    public ResponseEntity<Erro> criarContaPoupanca(@RequestBody ContaPoupanca conta) {
+    public void criarContaPoupanca(@RequestBody ContaPoupanca conta) {
         boolean jaExiste = contaRepository.verificarIdentificador(conta.getAgencia(),conta.getNumero());
 
         if(jaExiste){
             throw new RuntimeException("ERRO: Já existe uma conta com esse número vinculado a essa agência");
         }
         conta.setTipo("POUPANCA");
-        return contaRepository.criarConta(conta);
+        contaRepository.criarConta(conta);
     }
 
     @Override
-    public ResponseEntity<Erro> criarContaCredito(@RequestBody ContaCredito conta) {
+    public void criarContaCredito(@RequestBody ContaCredito conta) {
         boolean jaExiste = contaRepository.verificarIdentificador(conta.getAgencia(),conta.getNumero());
 
         if(jaExiste){
             throw new RuntimeException("ERRO: Já existe uma conta com esse número vinculado a essa agência");
         }
         conta.setTipo("CREDITO");
-        return contaRepository.criarConta(conta);
+        contaRepository.criarConta(conta);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ContaUseCaseImpl implements ContaUseCase {
     }
 
     @Override
-    public ResponseEntity<Erro> atualizarConta(long id, Conta novaConta) {
+    public Conta atualizarConta(long id, Conta novaConta) {
         boolean jaExiste = contaRepository.verificarIdentificador(novaConta.getAgencia(),novaConta.getNumero());
 
         if(jaExiste){
@@ -76,12 +76,12 @@ public class ContaUseCaseImpl implements ContaUseCase {
     }
 
     @Override
-    public ResponseEntity<Erro> transferir(long idOrigem, long idDestino, BigDecimal valor){
-        return contaRepository.transferir(idOrigem, idDestino, valor);
+    public void transferir(long idOrigem, long idDestino, BigDecimal valor){
+        contaRepository.transferir(idOrigem, idDestino, valor);
     }
 
     @Override
-    public ResponseEntity<Erro> aplicarPoupanca(long id, BigDecimal valor){
+    public void aplicarPoupanca(long id, BigDecimal valor){
         Conta conta = contaRepository.buscarConta(id);
 
         if(conta instanceof ContaPoupanca){
@@ -94,11 +94,10 @@ public class ContaUseCaseImpl implements ContaUseCase {
         }else{
             throw new RuntimeException("ERRO: Conta "+conta.getTipo()+" não aceita esse tipo de método");
         }
-        return null;
     }
 
     @Override
-    public ResponseEntity<Erro> usarCredito(long id, BigDecimal valor){
+    public void usarCredito(long id, BigDecimal valor){
 
         Conta conta = contaRepository.buscarConta(id);
 
@@ -111,6 +110,5 @@ public class ContaUseCaseImpl implements ContaUseCase {
         }else{
             throw new RuntimeException("ERRO: Conta "+conta.getTipo()+" não aceita esse tipo de método");
         }
-        return null;
     }
 }

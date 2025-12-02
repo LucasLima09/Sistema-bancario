@@ -18,18 +18,21 @@ public class ContaController {
     ContaUseCase contaUseCase;
 
     @PostMapping("/corrente")
-    ResponseEntity<Erro> criarContaCorrente(@RequestBody ContaCorrente conta){
-        return contaUseCase.criarContaCorrente(conta);
+    ResponseEntity<Void> criarContaCorrente(@RequestBody ContaCorrente conta){
+        contaUseCase.criarContaCorrente(conta);
+        return ResponseEntity.status(201).build();
     }
 
     @PostMapping("/poupanca")
-    ResponseEntity<Erro> criarContaPoupanca(@RequestBody ContaPoupanca conta){
-        return contaUseCase.criarContaPoupanca(conta);
+    ResponseEntity<Void> criarContaPoupanca(@RequestBody ContaPoupanca conta){
+        contaUseCase.criarContaPoupanca(conta);
+        return ResponseEntity.status(201).build();
     }
 
     @PostMapping("/credito")
-    ResponseEntity<Erro> criarContaCredito(@RequestBody ContaCredito conta){
-        return contaUseCase.criarContaCredito(conta);
+    ResponseEntity<Void> criarContaCredito(@RequestBody ContaCredito conta){
+        contaUseCase.criarContaCredito(conta);
+        return ResponseEntity.status(201).build();
     }
 
     @GetMapping
@@ -43,26 +46,31 @@ public class ContaController {
     }
 
     @DeleteMapping("/{id}")
-    void deletarCliente(@PathVariable long id){
+    void deletarConta(@PathVariable long id){
         contaUseCase.deletarConta(id);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Erro> atualizarConta(@PathVariable long id, @RequestBody Conta conta){
-        return contaUseCase.atualizarConta(id,conta);
+    ResponseEntity<Conta> atualizarConta(@PathVariable long id, @RequestBody Conta conta){
+        Conta contaAtualizada = contaUseCase.atualizarConta(id,conta);
+        return ResponseEntity.ok(contaAtualizada);
     }
 
     @PostMapping("/transferencias")
-    public ResponseEntity<Erro> transferir(@RequestBody TransferenciaDTO dto){
-        return contaUseCase.transferir(dto.origem(), dto.destino(), dto.valor());
+    public ResponseEntity<Void> transferir(@RequestBody TransferenciaDTO dto){
+        contaUseCase.transferir(dto.origem(), dto.destino(), dto.valor());
+        return ResponseEntity.status(201).build();
     }
 
     @PostMapping("/{id}/aplicacoes")
-    public ResponseEntity<Erro> aplicarPoupanca(@PathVariable long id, @RequestBody ValorDTO dto){
-        return contaUseCase.aplicarPoupanca(id, dto.valor());}
+    public ResponseEntity<Void> aplicarPoupanca(@PathVariable long id, @RequestBody ValorDTO dto){
+        contaUseCase.aplicarPoupanca(id, dto.valor());
+        return ResponseEntity.status(201).build();
+    }
 
     @PostMapping("/{id}/compras")
-    public ResponseEntity<Erro> usarCredito(@PathVariable long id, @RequestBody ValorDTO dto){
-        return contaUseCase.usarCredito(id, dto.valor());
+    public ResponseEntity<Void> usarCredito(@PathVariable long id, @RequestBody ValorDTO dto){
+        contaUseCase.usarCredito(id, dto.valor());
+        return ResponseEntity.status(201).build();
     }
 }

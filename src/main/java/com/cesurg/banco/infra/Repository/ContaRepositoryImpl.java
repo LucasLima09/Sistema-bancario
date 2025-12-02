@@ -17,11 +17,10 @@ public class ContaRepositoryImpl implements ContaRepository {
 
     private long idAtual = 0;
     @Override
-    public ResponseEntity<Erro> criarConta(Conta conta) {
+    public void criarConta(Conta conta) {
         idAtual++;
         conta.setId(idAtual);
         listaDeContas.add(conta);
-        return null;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class ContaRepositoryImpl implements ContaRepository {
     }
 
     @Override
-    public ResponseEntity<Erro> atualizarConta(long id, Conta novaConta) {
+    public Conta atualizarConta(long id, Conta novaConta) {
         Conta contaExistente = buscarConta(id);
         //saldo credito agencia numero
         if(novaConta.getSaldo() != null){
@@ -52,7 +51,7 @@ public class ContaRepositoryImpl implements ContaRepository {
         if(novaConta.getNumero() != null && !novaConta.getNumero().isEmpty()){
             contaExistente.setNumero(novaConta.getNumero());
         }
-        return null;
+        return contaExistente;
     }
 
     @Override
@@ -75,7 +74,7 @@ public class ContaRepositoryImpl implements ContaRepository {
         return false;
     }
     @Override
-    public ResponseEntity<Erro> transferir(long idOrigem, long idDestino, BigDecimal valor){
+    public void transferir(long idOrigem, long idDestino, BigDecimal valor){
 
         Conta origem = buscarConta(idOrigem);
         Conta destino = buscarConta(idDestino);
@@ -85,6 +84,5 @@ public class ContaRepositoryImpl implements ContaRepository {
 
         atualizarConta(idOrigem, origem);
         atualizarConta(idDestino, destino);
-        return null;
     }
 }
