@@ -13,18 +13,22 @@ public class ContaCredito extends Conta{
         super.setTipo("CREDITO");
     }
 
-    public ResponseEntity<Erro> usarCredito(BigDecimal valor){
-        if(valor.compareTo(BigDecimal.valueOf(0)) > 0) {
-            if (creditoUsado.compareTo(creditoLimite) < 0) {
-                this.creditoUsado = this.creditoUsado.add(valor);
-            } else {
-                throw new RuntimeException("ERRO: Você atingiu o LIMITE do crédito");
-            }
-        }else {
+    public void usarCredito(BigDecimal valor){
+
+        if(valor.compareTo(BigDecimal.valueOf(0)) <= 0) {
             throw new RuntimeException("ERRO: O valor deve ser maior que 0");
         }
+        if(valor.compareTo(creditoLimite) > 0){
+            throw new RuntimeException("ERRO: O valor do produto é maior que o seu limite de crédito");
+        }
 
-        return null;
+        this.creditoUsado = this.creditoUsado.add(valor);
+
+        if (creditoUsado.compareTo(creditoLimite) > 0) {
+            this.creditoUsado = this.creditoUsado.subtract(valor);
+            throw new RuntimeException("ERRO: Você não tem crédito suficiente");
+        }
+
     }
 
     public BigDecimal getCreditoLimite() {
