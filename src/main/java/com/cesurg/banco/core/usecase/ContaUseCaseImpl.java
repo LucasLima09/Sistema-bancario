@@ -1,5 +1,6 @@
 package com.cesurg.banco.core.usecase;
 
+import com.cesurg.banco.core.domain.interfaces.ClienteRepository;
 import com.cesurg.banco.core.domain.interfaces.ContaRepository;
 import com.cesurg.banco.core.domain.interfaces.ContaUseCase;
 import com.cesurg.banco.core.domain.model.*;
@@ -16,9 +17,18 @@ public class ContaUseCaseImpl implements ContaUseCase {
 
     @Autowired
     ContaRepository contaRepository;
+    @Autowired
+    ClienteRepository clienteRepository;
 
     @Override
     public void criarContaCorrente(@RequestBody ContaCorrente conta) {
+
+        Cliente clienteExiste = clienteRepository.buscarCliente(conta.getClienteId());
+
+        if(clienteExiste == null){
+            throw new RuntimeException("ERRO: O ID do cliente não foi encontrado");
+        }
+
         boolean jaExiste = contaRepository.verificarIdentificador(conta.getAgencia(),conta.getNumero());
 
         if(jaExiste){
